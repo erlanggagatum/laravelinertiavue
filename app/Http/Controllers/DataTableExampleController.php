@@ -17,20 +17,33 @@ class DataTableExampleController extends Controller
     public function index(Request $request)
     {   
 
+        request()->validate([
+            'direction' => ['in:asc,desc'],
+            'field' => ['in:name,email']
+        ]);
+        
         // if($request->page < 1 || $request->page > )
 
         $users = User::when($request->name, function($query, $term) {
             $query->where('name', 'LIKE', '%'.$term.'%');
         });
 
-        if (isset($request->field)){
-            $users->orderBy("$request->field", "$request->direction");
+        // if (isset($request->field)){
+        //     $users->orderBy("$request->field", "$request->direction");
+        // }
+
+        if($request->has(['field','direction'])){
+            $users->orderBy($request->field, $request->direction);
         }
 
         // dd($users);
+        // dd($request->field);
 
         return Inertia::Render('DataTableExample',[
             'users' => $users->paginate(),
+            'pField' => $request->field,
+            'pDirection' => $request->direction,
+            // 'pName'
         ]);
         //
     }
