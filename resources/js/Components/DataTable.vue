@@ -20,11 +20,9 @@
                     <thead class="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
                         <tr>
                             <th class="p-2 whitespace-nowrap" @click="sort('name')">
-                                <div class="font-semibold flex justify-between">Name
-                                    <span v-if="params.direction == 'asc' && params.field == 'name'" class="bg-amber-500 rounded-lg text-white font-thin px-1">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                        <path d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h5a1 1 0 000-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM13 16a1 1 0 102 0v-5.586l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 101.414 1.414L13 10.414V16z" />
-                                        </svg>
+                                <div class="font-semibold flex justify-between">Name 
+                                    <span v-if="params.direction == 'asc' && params.field == 'name'" class="">
+                                        <div><SortAscendingIcon/></div>
                                     </span>
                                     <span v-if="params.direction == 'desc' && params.field == 'name'" class="bg-amber-500 rounded-lg text-white font-thin px-1">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -35,9 +33,16 @@
                                 </div>
                             </th>
                             <th class="p-2 whitespace-nowrap" @click="sort('email')">
-                                <div class="font-semibold flex justify-between">Email
-                                    <span v-if="params.direction == 'asc' && params.field == 'email'" class="bg-amber-500 rounded-lg text-white font-thin px-1"><p>asc</p> </span>
-                                    <span v-if="params.direction == 'desc' && params.field == 'email'" class="bg-amber-500 rounded-lg text-white font-thin px-1"><p>desc</p> </span>
+                                <div class="font-semibold flex justify-between">Email   
+                                    <div v-if="params.direction == 'asc' && params.field == 'email'" 
+                                        class="bg-amber-500 text-white rounded-lg px-1">
+                                        <SortAscendingIcon class="w-2 h-2"/>
+                                    </div>
+                                    
+                                    <span v-if="params.direction == 'desc' && params.field == 'email'" 
+                                        class="bg-amber-500 text-white rounded-lg px-1">
+                                        <SortDescendingIcon/>
+                                    </span>
                                     
                                 </div>
                             </th>
@@ -87,7 +92,7 @@
 </template>
 
 <script>
-
+import { SortAscendingIcon, SortDescendingIcon } from '@heroicons/vue/outline'
 import Input from '@/Components/Input.vue';
 import Button from './Button.vue';
 export default {
@@ -103,7 +108,9 @@ export default {
     },
     components: {
         Input,
-        Button
+        Button,
+        SortAscendingIcon,
+        SortDescendingIcon
     },
     props:{
         users: {
