@@ -10,10 +10,13 @@
             <!-- TABLE HERE -->
             
             <!-- Pagination Here -->
-            <Pagination :users='users'></Pagination>
+            <Pagination :users='users' :header='header'></Pagination>
 
             <!-- Table -->
-            <DataTable :users='users.data'>
+            <DataTable 
+            :users='users.data'
+            :header='header'
+            >
                 <template #header>
                     <h2 class="font-semibold text-gray-800 inline">Header Here</h2>
                     <Input @keyup.enter='findName' v-model="params.name" placeholder='Find Name' id="search" type="text" class=""></Input>
@@ -46,7 +49,26 @@ export default {
         return {
             params: {
                 name: null
-            }
+            },
+            header: [
+                {
+                    name: 'name',
+                    sortable: true
+                },
+                {
+                    name: 'email',
+                    sortable: false,
+                },
+                {
+                    name: 'id',
+                    sortable: false,
+                },
+                {
+                    name: 'created_at',
+                    as: 'created at',
+                    sortable: false,
+                }
+            ]
         }
     },
     components: {
