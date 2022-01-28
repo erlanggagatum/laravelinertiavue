@@ -10,13 +10,21 @@
             <!-- TABLE HERE -->
             
             <!-- Pagination Here -->
-            <Pagination :users='users'></Pagination>
+            <Pagination :users='users' ></Pagination>
 
             <!-- Table -->
-            <DataTable :users='users.data'>
+            <DataTable 
+            :items='users.data'
+            :headers='header'
+            >
                 <template #header>
                     <h2 class="font-semibold text-gray-800 inline">Header Here</h2>
                     <Input @keyup.enter='findName' v-model="params.name" placeholder='Find Name' id="search" type="text" class=""></Input>
+                </template>
+
+                <template #action='{item}'>
+                    <b-button @click="customaction(item)">Edit</b-button>
+                    <b-button @click="deleteaction(item)">Delete</b-button>
                 </template>
             </DataTable>
 
@@ -32,6 +40,7 @@
 
 <script>
 
+
 import BreezeAuthenticatedLayout from '@/Layouts/Authenticated.vue'
 import DataTable from '@/Components/DataTable.vue'
 import Pagination from '@/Components/Pagination.vue'
@@ -46,7 +55,30 @@ export default {
         return {
             params: {
                 name: null
-            }
+            },
+            header: [
+                {
+                    name: 'name',
+                    sortable: true
+                },
+                {
+                    name: 'email',
+                    sortable: false,
+                },
+                {
+                    name: 'id',
+                    sortable: true,
+                },
+                {
+                    name: 'created_at',
+                    as: 'created at',
+                    sortable: false,
+                },
+                {
+                    name: 'action',
+                    sortable: false,
+                }
+            ]
         }
     },
     components: {
@@ -67,6 +99,12 @@ export default {
                 preserveState: true
             });
         },
+        customaction(item){
+            alert(item.name)
+        },
+        deleteaction(item){
+            alert(item.email)
+        }
     },
 }
 </script>

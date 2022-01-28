@@ -19,33 +19,27 @@ class DataTableExampleController extends Controller
 
         request()->validate([
             'direction' => ['in:asc,desc'],
-            'field' => ['in:name,email']
+            'field' => ['in:name,email,id,created_at']
         ]);
         
-        // if($request->page < 1 || $request->page > )
-
+        
+        // pagination
         $users = User::when($request->name, function($query, $term) {
             $query->where('name', 'LIKE', '%'.$term.'%');
         });
-
-        // if (isset($request->field)){
-        //     $users->orderBy("$request->field", "$request->direction");
-        // }
 
         if($request->has(['field','direction'])){
             $users->orderBy($request->field, $request->direction);
         }
 
-        // dd($users);
-        // dd($request->field);
-
+        $per_page = 15;
+        if($request->has('per_page')){
+            $per_page = $request->per_page;
+        }
+        
         return Inertia::Render('DataTableExample',[
-            'users' => $users->paginate(),
-            'pField' => $request->field,
-            'pDirection' => $request->direction,
-            // 'pName'
+            'users' => $users->paginate($per_page),
         ]);
-        //
     }
 
     /**
