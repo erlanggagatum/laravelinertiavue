@@ -32,4 +32,8 @@ Route::get('/dashboard', function () {
 require __DIR__.'/auth.php';
 
 Route::get('/datatableexample', [DataTableExampleController::class, 'index'])
-->middleware(['auth', 'verified'])->name('datatableexample');
+    ->middleware(['auth', 'verified'])->name('datatableexample');
+
+Route::get('/modalexample', function(){
+    return Inertia::render('ModalExample');
+})->middleware(['auth', 'verified'])->name('modalexample');

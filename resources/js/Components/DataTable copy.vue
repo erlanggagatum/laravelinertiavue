@@ -22,12 +22,23 @@
                 <table class="table-auto w-full">
 
 
-                    
+                    <!-- table header here -->
                     <thead class="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
                         <tr>
-                            
-                            <th v-for="header in header" :key="header" class="p-2 whitespace-nowrap">
-                                <div class="font-semibold text-left">{{header.name}}</div>
+                            <!-- show table header -->
+                            <th v-for="header in header" :key="header" class="p-2 whitespace-nowrap" @click="sort(header)">
+                                <div class="font-semibold flex justify-between">{{header.name}} 
+
+                                    
+                                    <span v-if="params.direction == 'asc' && params.field == header.name" class="bg-amber-500 rounded-lg text-white font-thin px-1">
+                                        <div class="h-5 w-5"><SortAscendingIcon/></div>
+                                    </span>
+                                    <span v-if="params.direction == 'desc' && params.field == header.name" class="bg-amber-500 rounded-lg text-white font-thin px-1">
+                                        <div class="h-5 w-5"><SortDescendingIcon/></div>
+                                    </span>
+
+                                </div>
+
                             </th>
 
                             
@@ -154,7 +165,10 @@ export default {
     },
     methods: {
         sort(field){
-            this.params.field = field
+            if(!field.sortable){
+                return;
+            }
+            this.params.field = field.name
             this.params.direction = (this.params.direction === 'asc' ? 'desc' : 'asc')
             this.$inertia.get(this.$page.url, this.params, {
                 replace: true,
